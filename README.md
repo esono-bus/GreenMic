@@ -1,3 +1,8 @@
+# 🎤 GreenMic
+
+[![Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/esonobus)
+
+---
 ## 🌳 Branch 構成
 
 このプロジェクトは複数の branch で管理されています。
