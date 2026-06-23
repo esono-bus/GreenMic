@@ -19,12 +19,16 @@ import re
 # ベースパス（exe化・通常起動の両対応）
 if getattr(sys, 'frozen', False):
     BASE_PATH = os.path.dirname(sys.executable)
+    # インストール先（Program Files）は書き込み不可のため %APPDATA% を使用
+    DATA_PATH = os.path.join(os.environ.get('APPDATA', BASE_PATH), 'GreenMic')
+    os.makedirs(DATA_PATH, exist_ok=True)
 else:
     BASE_PATH = os.path.dirname(os.path.abspath(__file__))
+    DATA_PATH = BASE_PATH
 
 # ログ設定
 logging.basicConfig(
-    filename=os.path.join(BASE_PATH, 'greenmic.log'),
+    filename=os.path.join(DATA_PATH, 'greenmic.log'),
     level=logging.INFO,
     format='%(asctime)s [%(levelname)s] %(message)s',
     encoding='utf-8'
@@ -38,7 +42,7 @@ if ctypes.windll.kernel32.GetLastError() == 183:
 # -------------------------------------------------------
 # 設定管理
 # -------------------------------------------------------
-CONFIG_PATH = os.path.join(BASE_PATH, 'greenmic_config.json')
+CONFIG_PATH = os.path.join(DATA_PATH, 'greenmic_config.json')
 
 DEFAULT_CONFIG = {
     "hotkey": "right ctrl",
