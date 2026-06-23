@@ -268,7 +268,9 @@ def open_settings_window(root):
 
     win = tk.Toplevel(root)
     win.title("GreenMic 設定")
-    win.geometry("400x370")
+    sw = root.winfo_screenwidth()
+    sh = root.winfo_screenheight()
+    win.geometry(f"400x370+{sw//2 - 200}+{sh//2 - 185}")
     win.resizable(False, False)
     win.attributes('-topmost', True)
 
@@ -412,7 +414,9 @@ def voice_recognition_loop():
         help_window = tk.Toplevel(root)
         help_window.withdraw()
         help_window.title("GreenMic の使い方")
-        help_window.geometry("360x255")
+        sw2 = root.winfo_screenwidth()
+        sh2 = root.winfo_screenheight()
+        help_window.geometry(f"360x310+{sw2//2 - 180}+{sh2//2 - 155}")
         help_window.attributes('-topmost', True)
         tk.Label(help_window, text="🎤 GreenMic",
                  font=("メイリオ", 14, "bold"), fg="#008000").pack(pady=10)
@@ -421,12 +425,15 @@ def voice_recognition_loop():
             hk = config.get('hotkey', 'right ctrl')
             ll = {v: k for k, v in LANGUAGE_OPTIONS.items()}.get(
                 config.get('language', 'ja-JP'), '日本語')
+            punct = "オン" if config.get('auto_punctuation', True) and config.get('language', 'ja-JP').startswith('ja') else "オフ"
             return (
                 f"【使い方】\n"
                 f"1. 「{hk}」キーを押しっぱなしにします。\n"
                 f"2. 画面下に緑の文字が出たら話します。\n"
-                f"3. キーを離すと、文字が自動で入力されます。\n\n"
+                f"3. キーを離すと、文字が自動で入力されます。\n"
+                f"4. 入力後、バーに認識テキストが約1.5秒表示されます。\n\n"
                 f"認識言語: {ll}\n"
+                f"句読点の自動挿入: {punct}\n"
                 f"最大録音時間: {config.get('max_record_seconds', 30)}秒\n\n"
                 f"設定変更はトレイアイコン → 「設定」から"
             )
